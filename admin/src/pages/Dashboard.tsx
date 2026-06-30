@@ -38,10 +38,17 @@ export default function Dashboard() {
     }
   };
 
-  useEffect(() => {
-  const interval = setInterval(() => {
-    window.location.reload();
-  }, 5000);
+useEffect(() => {
+
+   fetchUser();
+
+   const interval = setInterval(() => {
+      fetchUser();
+   }, 5000);
+
+   return () => clearInterval(interval);
+
+}, []);
 
   return () => clearInterval(interval);
 }, []);
