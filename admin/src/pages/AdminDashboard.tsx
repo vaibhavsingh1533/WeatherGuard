@@ -22,7 +22,13 @@ if (user.role !== "admin") {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
 
-  
+  useEffect(() => {
+  const interval = setInterval(() => {
+    window.location.reload();
+  }, 5000);
+
+  return () => clearInterval(interval);
+}, []);
 
   const loadUsers = async () => {
     try {
