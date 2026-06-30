@@ -38,6 +38,14 @@ export default function Dashboard() {
     }
   };
 
+  useEffect(() => {
+  const interval = setInterval(() => {
+    window.location.reload();
+  }, 5000);
+
+  return () => clearInterval(interval);
+}, []);
+
   const requestAccess = async () => {
     try {
       const res = await api.post("/auth/request-access", {
