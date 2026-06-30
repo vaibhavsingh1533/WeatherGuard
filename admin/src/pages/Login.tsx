@@ -2,8 +2,10 @@ import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../firebase";
 import api from "../services/api";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function Login() {
+    const [role, setRole] = useState("user");
   const navigate = useNavigate();
 
   const login = async () => {
@@ -14,6 +16,7 @@ export default function Login() {
         name: result.user.displayName,
         email: result.user.email,
         provider: "google",
+        role,
       });
 
       localStorage.setItem("user", JSON.stringify(response.data));
@@ -60,6 +63,23 @@ export default function Login() {
           </button>
 
         </div>
+
+        <div className="mt-8">
+
+  <label className="block text-sm font-semibold mb-2">
+    Login As
+  </label>
+
+  <select
+    value={role}
+    onChange={(e) => setRole(e.target.value)}
+    className="w-full border rounded-xl p-3"
+  >
+    <option value="user">User</option>
+    <option value="admin">Admin</option>
+  </select>
+
+</div>
 
         <div className="mt-10 border-t pt-6 text-center">
 

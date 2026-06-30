@@ -128,19 +128,45 @@ export default function Dashboard() {
 
           {/* Telegram */}
 
-          <div className="bg-white rounded-2xl shadow-lg p-6">
+         {/* Telegram */}
 
-            <h3 className="text-gray-500">
-              Telegram
-            </h3>
+<div className="bg-white rounded-2xl shadow-lg p-6">
 
-            <p className="mt-4 text-green-600 font-bold">
-              {user.telegramChatId
-                ? "Connected ✅"
-                : "Not Connected"}
-            </p>
+  <h3 className="text-gray-500 text-lg font-semibold">
+    🤖 Telegram
+  </h3>
 
-          </div>
+  <p className="mt-4">
+    {user.telegramChatId ? (
+      <span className="text-green-600 font-bold">
+        ✅ Connected
+      </span>
+    ) : (
+      <span className="text-red-600 font-bold">
+        ❌ Not Connected
+      </span>
+    )}
+  </p>
+
+  <button
+    onClick={() =>
+      window.open(
+        "https://t.me/weatherguard_Vaibhav_bot",
+        "_blank"
+      )
+    }
+    className="mt-5 w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition"
+  >
+    {user.telegramChatId ? "Open Telegram Bot" : "Connect Telegram"}
+  </button>
+
+  {!user.telegramChatId && (
+    <p className="text-sm text-gray-500 mt-4">
+      Click the button, open the bot, and press <strong>Start</strong> to connect your Telegram account.
+    </p>
+  )}
+
+</div>
 
           {/* Alerts */}
 

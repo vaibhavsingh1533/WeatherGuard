@@ -14,45 +14,53 @@ export class AuthService {
     name: string;
     email: string;
     provider: string;
+    role: string;
   }) {
     let user = await this.userModel.findOne({
       email: data.email,
     });
 
-    if (!user) {
-      user = await this.userModel.create({
-        name: data.name,
-        email: data.email,
-        provider: data.provider,
-        role: data.email === 'admin@gmail.com' ? 'admin' : 'user',
-        status: 'new',
-      });
+    if (user) {
+      // Update role for demo purposes
+      user.role = data.role || 'user';
+      await user.save();
+
+      return user;
     }
+
+    user = await this.userModel.create({
+      name: data.name,
+      email: data.email,
+      provider: data.provider,
+      role: data.role || 'user',
+      status: 'new',
+      telegramChatId: '',
+    });
 
     return user;
   }
 
-async requestAccess(email: string) {
-  const user = await this.userModel.findOne({ email });
+  async requestAccess(email: string) {
+    const user = await this.userModel.findOne({ email });
 
-  if (!user) {
-    throw new NotFoundException("User not found");
-  }
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
 
-  if (user.status === "approved") {
+    if (user.status === 'approved') {
+      return {
+        message: 'User already approved',
+        user,
+      };
+    }
+
+    user.status = 'pending';
+
+    await user.save();
+
     return {
-      message: "User already approved",
+      message: 'Access Request Sent',
       user,
     };
   }
-
-  user.status = "pending";
-
-  await user.save();
-
-  return {
-    message: "Access Request Sent",
-    user,
-  };
 }
-  }
